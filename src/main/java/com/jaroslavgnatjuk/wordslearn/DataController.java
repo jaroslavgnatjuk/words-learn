@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/data")
 public class DataController {
     private static String SPREADSHEET_ID = "1aC4Zbx1VaACoY5tHR9rkZSc5PA5k-HmDGm8vwZ8bqyQ";
-    private static String KEY_FILE_LOCATION = "words-learn-731e42ed6b13.p12";
+    private static String KEY_FILE_LOCATION = "words-learn-4829937c2465.json";
 
     @GetMapping
     public List<List<Object>> getSheetData() throws IOException, GeneralSecurityException, URISyntaxException {

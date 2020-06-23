@@ -12,49 +12,30 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.ui.Model;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.JarURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
 
 public class SheetsQuickStart {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String SERVICE_ACCOUNT_EMAIL = "words-learn@words-learn.iam.gserviceaccount.com";
     private static final String APPLICATION_NAME = "words-learn";
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS);
-    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(SheetsQuickStart.class.getName());
 
-    private Credential getCredentials(String KEY_FILE_LOCATION) throws URISyntaxException, IOException, GeneralSecurityException {
-        URL fileURL = SheetsQuickStart.class.getClassLoader().getResource(KEY_FILE_LOCATION);
-        if (fileURL == null) {
-            fileURL = (new File(KEY_FILE_LOCATION)).toURI().toURL();
-        }
-
+    private Credential getCredentials(String KEY_FILE_LOCATION) throws IOException, GeneralSecurityException {
         InputStream in = Model.class.getClassLoader().getResourceAsStream(KEY_FILE_LOCATION);
 
-        InputStreamReader isReader = new InputStreamReader(in);
-        //Creating a BufferedReader object
-        BufferedReader reader = new BufferedReader(isReader);
-        StringBuffer sb = new StringBuffer();
-        String str;
-        while((str = reader.readLine())!= null){
-            sb.append(str);
-        }
-        System.out.println(sb.toString());
-
-        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        return new GoogleCredential.Builder()
-                .setTransport(httpTransport)
-                .setJsonFactory(JSON_FACTORY)
-                .setServiceAccountId(SERVICE_ACCOUNT_EMAIL)
-                .setServiceAccountPrivateKeyFromP12File(new File(fileURL.toURI()))
-                .setServiceAccountScopes(SCOPES)
-                .build();
+        return GoogleCredential.fromStream(in, GoogleNetHttpTransport.newTrustedTransport(), JSON_FACTORY).createScoped(SCOPES);
     }
 
-    public List<List<Object>> getData(String spreadsheetId, String range, String KEY_FILE_LOCATION) throws IOException, GeneralSecurityException, URISyntaxException {
+    public List<List<Object>> getData(String spreadsheetId, String range, String KEY_FILE_LOCATION) throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(KEY_FILE_LOCATION))
                 .setApplicationName(APPLICATION_NAME)
