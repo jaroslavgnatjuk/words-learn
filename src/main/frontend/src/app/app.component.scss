@@ -6,6 +6,7 @@
   .header {
     display: flex;
     justify-content: center;
+    margin-top: 10px;
   }
   .content {
     display: flex;
@@ -16,5 +17,11 @@
     display: flex;
     justify-content: center;
     margin: 10px;
+  }
+  .loading {
+    color: #999;
+  }
+  .min, .max {
+    width: 100px;
   }
 }

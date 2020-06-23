@@ -2,14 +2,15 @@
   <div class="header">
     <div class="ui form">
       <div class="fields">
-        <div class="field">
+        <div class="field min">
           <label>min</label>
           <input type="number" [(ngModel)]="min" />
         </div>
-        <div class="field">
+        <div class="field max">
           <label>max</label>
           <input type="number" [(ngModel)]="max" />
         </div>
+
         <button class="ui basic button" (click)="reset()">
           reset
         </button>
@@ -17,17 +18,19 @@
     </div>
   </div>
   <div class="content">
-    <h1 class="ui centered header" (click)="showTranslation = true">
+    <h1 class="ui centered header" *ngIf="!isLoading" (click)="showTranslation = true">
       {{ words[index] && words[index][0] }}
-      <span *ngIf="showTranslation"> - {{ words[index] && words[index][1] }}</span>
+      <span *ngIf="showTranslation">
+        - {{ words[index] && words[index][1] }}</span
+      >
     </h1>
+    <h2 class="ui centered header" class="loading" *ngIf="isLoading">loading...</h2>
   </div>
   <div class="footer">
     <div>
-    <button class="ui primary button" (click)="nextWord()">
-      next
-    </button>
-
+      <button class="ui primary button" (click)="nextWord()">
+        next
+      </button>
     </div>
   </div>
 </div>

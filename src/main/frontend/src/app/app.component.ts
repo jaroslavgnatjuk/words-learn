@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   min: number;
   max: number;
   showTranslation: boolean;
+  isLoading: boolean;
 
   constructor(private readonly dataService: DataService) {
 
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
   }
 
   wordsInit(min: number, max: number): void {
+    this.isLoading = true;
     this.dataService.getData().subscribe(words => {
       if (max == null) {
         this.words = words;
@@ -33,6 +35,8 @@ export class AppComponent implements OnInit {
       this.wordsOrigin = Object.assign({}, words);
 
       this.index = this.randomInt(0, this.words.length - 1);
+
+      this.isLoading = false;
     });
   }
 
