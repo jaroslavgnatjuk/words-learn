@@ -10,9 +10,11 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import org.apache.logging.log4j.LogManager;
+import org.springframework.ui.Model;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
@@ -32,12 +34,28 @@ public class SheetsQuickStart {
             fileURL = (new File(KEY_FILE_LOCATION)).toURI().toURL();
         }
 
+        System.out.println(fileURL);
+        System.out.println(fileURL.toExternalForm());
+        System.out.println(fileURL.getPath());
+
+        File f;
+        try {
+            // Attempt to create the file with the uri. The pre-conditions
+            // are checked in the constructor and an exception is thrown
+            // if the uri does not meet them.
+            f = new File(fileURL.toExternalForm());
+        } catch (IllegalArgumentException e) {
+            // Invalid uri for File. Go our back up route of using the
+            // path from the url.
+            f = new File(fileURL.getPath());
+        }
+
         HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         return new GoogleCredential.Builder()
                 .setTransport(httpTransport)
                 .setJsonFactory(JSON_FACTORY)
                 .setServiceAccountId(SERVICE_ACCOUNT_EMAIL)
-                .setServiceAccountPrivateKeyFromP12File(new File(fileURL.toURI()))
+                .setServiceAccountPrivateKeyFromP12File(f)
                 .setServiceAccountScopes(SCOPES)
                 .build();
     }
