@@ -9,36 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
 class WordsLearnApplicationTests {
+    private final String GOOGLE_SHEETS = "google_sheets";
+    private String KEY_FILE_LOCATION = "words-learn-731e42ed6b13.p12";
     private static String SPREADSHEET_ID = "1aC4Zbx1VaACoY5tHR9rkZSc5PA5k-HmDGm8vwZ8bqyQ";
 
-    @Autowired
-    private Sheets sheetsService;
-
     @Test
-    public void readValues() throws IOException {
-        ValueRange result = sheetsService.spreadsheets().values()
-                .get(SPREADSHEET_ID, "A1:B900").execute();
-        int numRows = result.getValues() != null ? result.getValues().size() : 0;
+    public void getSheetData() throws IOException, GeneralSecurityException, URISyntaxException {
+        SheetsQuickStart sheetsQuickStart = new SheetsQuickStart();
+        List rows = sheetsQuickStart.getData(SPREADSHEET_ID, "A1:B9999", KEY_FILE_LOCATION);
 
-        System.out.println(result.getValues());
-        System.out.printf("%d rows retrieved.", numRows);
-/*
-        List<String> ranges = Arrays.asList("A1");
-        BatchGetValuesResponse readResult = sheetsService.spreadsheets().values()
-                .batchGet(SPREADSHEET_ID)
-                .setRanges(ranges)
-                .execute();
+        System.out.println(rows);
 
-        ValueRange januaryTotal = readResult.getValueRanges().get(0);
-
-        System.out.println(januaryTotal);*/
     }
-
 
 }

@@ -1,33 +1,25 @@
 package com.jaroslavgnatjuk.wordslearn;
 
-import com.google.api.services.sheets.v4.Sheets;
-import com.google.api.services.sheets.v4.model.ValueRange;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 import java.util.List;
-
-import static com.jaroslavgnatjuk.wordslearn.SheetsServiceUtil.SPREADSHEET_ID;
 
 @RestController
 @RequestMapping("/api/data")
 public class DataController {
-
-    private Sheets sheetsService = SheetsServiceUtil.getSheetsService();
-
-    public DataController() throws IOException, GeneralSecurityException {
-    }
+    private static String SPREADSHEET_ID = "1aC4Zbx1VaACoY5tHR9rkZSc5PA5k-HmDGm8vwZ8bqyQ";
+    private static String KEY_FILE_LOCATION = "words-learn-731e42ed6b13.p12";
 
     @GetMapping
-    public List<List<Object>> getData() throws IOException {
-        ValueRange result = sheetsService.spreadsheets().values()
-                .get(SPREADSHEET_ID, "A1:B9999").execute();
+    public List<List<Object>> getSheetData() throws IOException, GeneralSecurityException, URISyntaxException {
+        SheetsQuickStart sheetsQuickStart = new SheetsQuickStart();
 
-        return result.getValues();
+        return sheetsQuickStart.getData(SPREADSHEET_ID, "A1:B9999", KEY_FILE_LOCATION);
     }
 
 }
