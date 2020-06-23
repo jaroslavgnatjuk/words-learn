@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   index: number;
   min: number;
   max: number;
+  showTranslation: boolean;
 
   constructor(private readonly dataService: DataService) {
 
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit {
 
   nextWord(): void {
     this.words.splice(this.index, 1);
+    this.showTranslation = false;
   }
 
   randomInt(min: number, max: number): number {
@@ -45,5 +47,7 @@ export class AppComponent implements OnInit {
 
   reset(): void {
     this.wordsInit(this.min, this.max);
+    this.showTranslation = false;
   }
+
 }
