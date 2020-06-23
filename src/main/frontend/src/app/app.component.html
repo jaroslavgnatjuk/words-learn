@@ -1,7 +1,27 @@
-<div *ngIf="!!words">
-  <div>{{ words[index][0] }}</div>
-
-  <button class="ui button" (click)="nextWord()">
-    next
-  </button>
+<div *ngIf="!!words" class="container">
+  <div class="header">
+    <div class="ui form">
+      <div class="fields">
+        <div class="field">
+          <label>min</label>
+          <input type="number" [(ngModel)]="min" />
+        </div>
+        <div class="field">
+          <label>max</label>
+          <input type="number" [(ngModel)]="max" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <h1 class="ui centered header">{{ words[index][0] }}</h1>
+  </div>
+  <div class="footer">
+    <button class="ui primary button" (click)="nextWord()">
+      next
+    </button>
+    <button class="ui basic button" (click)="reset()">
+      reset
+    </button>
+  </div>
 </div>

@@ -7,15 +7,29 @@ import { DataService } from 'src/app/data.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  wordsOrigin: Array<Array<string>>;
   words: Array<Array<string>>;
   index: number;
+  min: number;
+  max: number;
 
   constructor(private readonly dataService: DataService) {
 
   }
+
   ngOnInit(): void {
-    this.dataService.getData().subscribe(data => {
-      this.words = data;
+    this.wordsInit(null, null);
+  }
+
+  wordsInit(min: number, max: number): void {
+    this.dataService.getData().subscribe(words => {
+      if (min == null || max == null) {
+        this.words = words;
+      } else {
+        this.words = words.filter((item, index) => index >= min && index <= max);
+      }
+
+      this.wordsOrigin = Object.assign({}, words);
 
       this.index = this.randomInt(0, this.words.length - 1);
     });
@@ -27,5 +41,9 @@ export class AppComponent implements OnInit {
 
   randomInt(min: number, max: number): number {
     return min + Math.floor((max - min) * Math.random());
+  }
+
+  reset(): void {
+    this.wordsInit(this.min, this.max);
   }
 }
