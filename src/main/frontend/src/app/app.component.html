@@ -10,21 +10,24 @@
           <label>max</label>
           <input type="number" [(ngModel)]="max" />
         </div>
+        <button class="ui basic button" (click)="reset()">
+          reset
+        </button>
       </div>
     </div>
   </div>
   <div class="content">
     <h1 class="ui centered header" (click)="showTranslation = true">
-      {{ words[index][0] }}
-      <span *ngIf="showTranslation"> - {{ words[index][1] }}</span>
+      {{ words[index] && words[index][0] }}
+      <span *ngIf="showTranslation"> - {{ words[index] && words[index][1] }}</span>
     </h1>
   </div>
   <div class="footer">
+    <div>
     <button class="ui primary button" (click)="nextWord()">
       next
     </button>
-    <button class="ui basic button" (click)="reset()">
-      reset
-    </button>
+
+    </div>
   </div>
 </div>

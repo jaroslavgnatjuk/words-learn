@@ -24,10 +24,10 @@ export class AppComponent implements OnInit {
 
   wordsInit(min: number, max: number): void {
     this.dataService.getData().subscribe(words => {
-      if (min == null || max == null) {
+      if (max == null) {
         this.words = words;
       } else {
-        this.words = words.filter((item, index) => index >= min && index <= max);
+        this.words = words.filter((item, index) => index >= (min || 0) && index <= max);
       }
 
       this.wordsOrigin = Object.assign({}, words);
@@ -39,6 +39,9 @@ export class AppComponent implements OnInit {
   nextWord(): void {
     this.words.splice(this.index, 1);
     this.showTranslation = false;
+
+
+    this.index = this.randomInt(0, this.words.length - 1);
   }
 
   randomInt(min: number, max: number): number {
