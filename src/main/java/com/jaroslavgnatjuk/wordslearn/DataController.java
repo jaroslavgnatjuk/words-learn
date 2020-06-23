@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import static com.jaroslavgnatjuk.wordslearn.SheetsServiceUtil.SPREADSHEET_ID;
@@ -16,8 +17,10 @@ import static com.jaroslavgnatjuk.wordslearn.SheetsServiceUtil.SPREADSHEET_ID;
 @RequestMapping("/api/data")
 public class DataController {
 
-    @Autowired
-    private Sheets sheetsService;
+    private Sheets sheetsService = SheetsServiceUtil.getSheetsService();
+
+    public DataController() throws IOException, GeneralSecurityException {
+    }
 
     @GetMapping
     public List<List<Object>> getData() throws IOException {

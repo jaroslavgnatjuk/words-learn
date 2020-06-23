@@ -15,10 +15,8 @@ public class SheetsServiceUtil {
     private static final String APPLICATION_NAME = "words-learn";
     public static String SPREADSHEET_ID = "1aC4Zbx1VaACoY5tHR9rkZSc5PA5k-HmDGm8vwZ8bqyQ";
 
-    @Bean
-    public Sheets getSheetsService() throws IOException, GeneralSecurityException {
+    public static Sheets getSheetsService() throws IOException, GeneralSecurityException {
         Credential credential = GoogleAuthorizeUtil.authorize();
-
         return new Sheets.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
                 JacksonFactory.getDefaultInstance(), credential)
