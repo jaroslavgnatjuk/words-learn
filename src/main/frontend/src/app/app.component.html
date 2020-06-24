@@ -15,20 +15,34 @@
           reset
         </button>
       </div>
+      <div class="words-left">words left: {{ words.length }}</div>
     </div>
   </div>
   <div class="content">
-    <h1 class="ui centered header" *ngIf="!isLoading" (click)="showTranslation = true">
+    <h1
+      class="ui centered header"
+      *ngIf="!isLoading"
+      (click)="showTranslation = true"
+    >
       {{ words[index] && words[index][0] }}
       <span *ngIf="showTranslation">
         - {{ words[index] && words[index][1] }}</span
       >
+      <span class="no-words" *ngIf="words.length === 0">
+        No words left! Push reset</span
+      >
     </h1>
-    <h2 class="ui centered header" class="loading" *ngIf="isLoading">loading...</h2>
+    <h2 class="ui centered header" class="loading" *ngIf="isLoading">
+      loading...
+    </h2>
   </div>
   <div class="footer">
     <div>
-      <button class="ui primary button" (click)="nextWord()">
+      <button
+        *ngIf="words.length !== 0"
+        class="ui primary button"
+        (click)="nextWord()"
+      >
         next
       </button>
     </div>

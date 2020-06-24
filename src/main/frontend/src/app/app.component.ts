@@ -41,9 +41,11 @@ export class AppComponent implements OnInit {
   }
 
   nextWord(): void {
-    this.words.splice(this.index, 1);
-    this.showTranslation = false;
+    if (!this.showTranslation) {
+      this.words.splice(this.index, 1);
+    }
 
+    this.showTranslation = false;
 
     this.index = this.randomInt(0, this.words.length - 1);
   }

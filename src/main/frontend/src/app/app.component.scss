@@ -7,6 +7,9 @@
     display: flex;
     justify-content: center;
     margin-top: 10px;
+    .words-left {
+      color: #999;
+    }
   }
   .content {
     display: flex;
@@ -21,7 +24,10 @@
   .loading {
     color: #999;
   }
+  .no-words {
+    color: green;
+  }
   .min, .max {
-    width: 130px;
+   // width: 130px;
   }
 }
