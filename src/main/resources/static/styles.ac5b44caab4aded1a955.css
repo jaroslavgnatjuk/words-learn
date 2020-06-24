@@ -1,4 +1,4 @@
-@media screen and (-webkit-min-device-pixel-ratio:0){input:focus,select:focus,textarea:focus{font-size:16px;background:#eee}}@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin); /*!
+body{font-size:16px}input,select{font-size:100%}@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin); /*!
  * # Semantic UI 2.4.0 - Reset
  * http://github.com/semantic-org/semantic-ui/
  *
