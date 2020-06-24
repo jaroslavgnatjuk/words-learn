@@ -27,7 +27,11 @@
   .no-words {
     color: green;
   }
-  .min, .max {
-   // width: 130px;
+  .min,
+  .max {
+    width: 100px;
+  }
+  .transparent {
+    color: transparent;
   }
 }
