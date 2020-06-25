@@ -8,6 +8,8 @@
     justify-content: center;
     margin-top: 10px;
     .words-left {
+      display: flex;
+      justify-content: space-between;
       color: #999;
     }
   }
@@ -23,6 +25,10 @@
   }
   .loading {
     color: #999;
+  }
+  .translation {
+    color: green;
+    margin-left: 20px;
   }
   .no-words {
     color: green;

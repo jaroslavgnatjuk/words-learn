@@ -1,4 +1,7 @@
 <div *ngIf="!!words" class="container">
+  <!-- <span *ngFor="let word of words; let i = index">
+    {{i}}  - {{word[0]}}
+  </span> -->
   <div class="header">
     <div class="ui form">
       <div class="fields">
@@ -17,7 +20,16 @@
           </button>
         </div>
       </div>
-      <div class="words-left">words left: {{ words.length }}</div>
+      <div class="words-left">
+        words left: {{ words.length }}
+        <div class="field">
+          <label>always show translation</label>
+          <input
+            type="checkbox"
+            (change)="alwaysShowTranslation = !alwaysShowTranslation"
+          />
+        </div>
+      </div>
     </div>
   </div>
   <div class="content">
@@ -27,8 +39,8 @@
       (click)="showTranslation = true"
     >
       {{ words[index] && words[index][0] }}
-      <span *ngIf="showTranslation">
-        - {{ words[index] && words[index][1] }}</span
+      <span class="translation" *ngIf="showTranslation || alwaysShowTranslation">
+        {{ words[index] && words[index][1] }}</span
       >
       <span class="no-words" *ngIf="words.length === 0">
         No words left! Push reset</span
@@ -46,6 +58,13 @@
         (click)="nextWord()"
       >
         next
+      </button>
+      <button
+        *ngIf="words.length == 0"
+        class="ui positive button"
+        (click)="reset()"
+      >
+        repeat
       </button>
     </div>
   </div>

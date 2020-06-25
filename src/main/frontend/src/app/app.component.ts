@@ -14,30 +14,35 @@ export class AppComponent implements OnInit {
   max: number;
   showTranslation: boolean;
   isLoading: boolean;
+  alwaysShowTranslation = false;
 
   constructor(private readonly dataService: DataService) {
 
   }
 
   ngOnInit(): void {
-    this.wordsInit(null, null);
+    this.load();
   }
 
-  wordsInit(min: number, max: number): void {
+  load(): void {
     this.isLoading = true;
     this.dataService.getData().subscribe(words => {
-      if (max == null) {
-        this.words = words;
-      } else {
-        this.words = words.filter((item, index) => index >= (min || 0) && index <= max);
-      }
+      this.wordsOrigin = words;
 
-      this.wordsOrigin = Object.assign({}, words);
-
-      this.index = this.randomInt(0, this.words.length - 1);
+      this.wordsInit(null, null);
 
       this.isLoading = false;
     });
+  }
+
+  wordsInit(min: number, max: number): void {
+    if (max == null) {
+      this.words = this.wordsOrigin.filter(item => true);
+    } else {
+      this.words = this.wordsOrigin.filter((item, index) => index >= (min || 0) && index <= max);
+    }
+
+    this.index = this.randomInt(0, this.words.length);
   }
 
   nextWord(): void {
@@ -47,7 +52,7 @@ export class AppComponent implements OnInit {
 
     this.showTranslation = false;
 
-    this.index = this.randomInt(0, this.words.length - 1);
+    this.index = this.randomInt(0, this.words.length);
   }
 
   randomInt(min: number, max: number): number {
