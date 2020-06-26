@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   showTranslation: boolean;
   isLoading: boolean;
   alwaysShowTranslation = false;
+  showOnlyStars = false;
 
   constructor(private readonly dataService: DataService) {
 
@@ -29,17 +30,21 @@ export class AppComponent implements OnInit {
     this.dataService.getData().subscribe(words => {
       this.wordsOrigin = words;
 
-      this.wordsInit(null, null);
+      this.wordsInit(null, null, this.showOnlyStars);
 
       this.isLoading = false;
     });
   }
 
-  wordsInit(min: number, max: number): void {
+  wordsInit(min: number, max: number, onlyStars: boolean): void {
     if (max == null) {
       this.words = this.wordsOrigin.filter(item => true);
     } else {
       this.words = this.wordsOrigin.filter((item, index) => index >= (min || 0) && index <= max);
+    }
+
+    if (onlyStars) {
+      this.words = this.words.filter(item => item[2] === '1');
     }
 
     this.index = this.randomInt(0, this.words.length);
@@ -60,8 +65,26 @@ export class AppComponent implements OnInit {
   }
 
   reset(): void {
-    this.wordsInit(this.min, this.max);
+    this.wordsInit(this.min, this.max, this.showOnlyStars);
     this.showTranslation = false;
+  }
+
+  onStarClick(curIndex: number, event): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const index = this.wordsOrigin.findIndex(item => item[0] === this.words[curIndex][0]);
+    const data = this.wordsOrigin[index][2] === '1' ? '' : '1';
+
+    this.dataService.setData(`C${index + 1}`, data).subscribe(resp => {
+      this.wordsOrigin[index][2] = data;
+      this.words[index][2] = data;
+    });
+  }
+
+  onShowOnlyStarsClicked(): void {
+    this.showOnlyStars = !this.showOnlyStars;
+    this.wordsInit(this.min, this.max, this.showOnlyStars);
   }
 
 }

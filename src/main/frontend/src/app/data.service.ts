@@ -13,4 +13,7 @@ export class DataService {
     return this.http.get<Array<Array<string>>>('api/data');
   }
 
+  setData(range: string, data: string): Observable<void> {
+    return this.http.put<void>(`api/data?range=${range}&data=${data}`, {});
+  }
 }

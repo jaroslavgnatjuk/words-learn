@@ -22,12 +22,21 @@
       </div>
       <div class="words-left">
         words left: {{ words.length }}
-        <div class="field">
-          <label>always show translation</label>
-          <input
-            type="checkbox"
-            (change)="alwaysShowTranslation = !alwaysShowTranslation"
-          />
+        <div>
+          <div class="field">
+            <label>always show translation</label>
+            <input
+              type="checkbox"
+              (change)="alwaysShowTranslation = !alwaysShowTranslation"
+            />
+          </div>
+          <div class="field">
+            <label>only stars</label>
+            <input
+              type="checkbox"
+              (change)="onShowOnlyStarsClicked()"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -38,8 +47,19 @@
       *ngIf="!isLoading"
       (click)="showTranslation = true"
     >
-      {{ words[index] && words[index][0] }}
-      <span class="translation" *ngIf="showTranslation || alwaysShowTranslation">
+      <span class="english-word"  *ngIf="words.length !== 0">
+        {{ words[index] && words[index][0] }}
+        <button class="ui basic icon button star" (click)="onStarClick(index, $event)">
+          <i
+            [ngClass]="{ outline: words[index][2] !== '1' }"
+            class="star icon"
+          ></i>
+        </button>
+      </span>
+      <span
+        class="translation"
+        *ngIf="showTranslation || alwaysShowTranslation"
+      >
         {{ words[index] && words[index][1] }}</span
       >
       <span class="no-words" *ngIf="words.length === 0">
@@ -54,14 +74,14 @@
     <div>
       <button
         *ngIf="words.length !== 0"
-        class="ui primary button"
+        class="ui primary big button"
         (click)="nextWord()"
       >
         next
       </button>
       <button
         *ngIf="words.length == 0"
-        class="ui positive button"
+        class="ui positive big button"
         (click)="reset()"
       >
         repeat
