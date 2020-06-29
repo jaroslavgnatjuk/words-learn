@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -13,7 +14,11 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    LocalStorageModule.withConfig({
+      prefix: 'wl-',
+      storageType: 'localStorage'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
