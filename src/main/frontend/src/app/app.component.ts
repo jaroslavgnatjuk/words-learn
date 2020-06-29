@@ -76,10 +76,11 @@ export class AppComponent implements OnInit {
     const index = this.wordsOrigin.findIndex(item => item[0] === this.words[curIndex][0]);
     const data = this.wordsOrigin[index][2] === '1' ? '' : '1';
 
-    this.dataService.setData(`C${index + 1}`, data).subscribe(resp => {
-      this.wordsOrigin[index][2] = data;
-      this.words[index][2] = data;
-    });
+    this.wordsOrigin[index][2] = data;
+    this.words[index][2] = data;
+
+    this.dataService.setData(`C${index + 1}`, data).subscribe(() => {
+    }, err => alert(JSON.stringify(err.message)));
   }
 
   onShowOnlyStarsClicked(): void {
